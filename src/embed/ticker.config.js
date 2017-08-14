@@ -34,7 +34,6 @@ module.exports = {
       'vendor/smooth-div-scroll/js/jquery.mousewheel.min.js',
       'src/common/apiHandler.js',
       'src/embed/ticker-script.js',
-      'src/common/dropdowns.js',
       'deps/offersExercisedListener.js'
     ],
 

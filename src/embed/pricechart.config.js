@@ -19,12 +19,10 @@ module.exports = {
       'deps/onResize.js',
       'src/common/apiHandler.js',
       'deps/offersExercisedListener.js',
-      'src/common/priceChart.js',
       'src/embed/pricechart-script.js'
       ],
 
     less: [
-      'src/less/priceChart.less',
       'src/embed/pricechart.less',
       'src/embed/ticker.less'
     ]

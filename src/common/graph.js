@@ -5,7 +5,9 @@ networkGraph = function (nameService) {
   var UNIX_RIPPLE_TIME = 946684800;
   var RECURSION_DEPTH = 1;
   var MAX_NUTL = 360;
-  var REFERENCE_NODE = '14aogr53zzB8r9MjxzJ1jL3XiaMZqSqdHc';
+  //var REFERENCE_NODE = '14aogr53zzB8r9MjxzJ1jL3XiaMZqSqdHc'; //for livenet
+  var REFERENCE_NODE = 'mjAFPh7F15o3BrAXbqZgUtUj6zjnKMWMhu'; //for testnet
+  
   var HALO_MARGIN = 6;
   var COLOR_TABLE = {
   //currency  |  center  |   rim  |
@@ -84,10 +86,6 @@ networkGraph = function (nameService) {
 
   var REQUEST_REPETITION_INTERVAL = 8*1000; //milliseconds
 
-
-
-  var param = REFERENCE_NODE;
-
   var alreadyFailed = false;
   var focalNode;
   var transaction_id;
@@ -95,22 +93,8 @@ networkGraph = function (nameService) {
   var changingFocus = false;
   var regX = new RegExp('^r[1-9A-Za-z]{25,34}$')
 
-  if (param === "") {
-    focalNode = REFERENCE_NODE;
-  } else if (param.length < 21) {
-    rippleName = param
-  } else if (isRippleAddress(param)) {
-    focalNode = param;
-  // } else if ("0123456789ABCDEF".indexOf(param.charAt(0)) != -1) {
-  //   transaction_id = param;
-  } else if (param.charAt(0) == "u" && Sha1.hash(param) == "7d0b25cc0abdcc216e9f26b078c0cb5c9032ed8c") {
-    //Easter egg!
-    RECURSION_DEPTH = 999999999;
-    focalNode = REFERENCE_NODE;
-  } else {
-    focalNode = REFERENCE_NODE;
-  }
-
+  //RECURSION_DEPTH = 999999999;
+  focalNode = REFERENCE_NODE;
 
   /**
    * isRippleAddress
@@ -121,17 +105,8 @@ networkGraph = function (nameService) {
   }
 
   function gotoThing() {
-    window.parent.searchByAddr();
-      // var appElement = parent.document.getElementById('aaa');
-      // alert(appElement)
-      // var $scope = angular.element(appElement).scope();
-      // alert($scope)
-      // $scope.searchByAddr();
-      // $scope.$apply();
-
-      // angular.element('#aaa').scope()
-    //   window.parent.window.document.getElementById("transactionsController")
     var string = $('#focus').val().replace(/\s+/g, '');
+    self.parent.iftest(string);
     if (string.length < 21) {
       nameService(string, function(name, address) {
         if (address) {
@@ -149,27 +124,22 @@ networkGraph = function (nameService) {
       //window.location.hash = string;
       mode = 'individual';
       api.getTxByHash(string, handleIndividualTransaction);
-      if (!remote.isConnected()) {
-        remote.connect();
-      }
     } else if (isRippleAddress(string)) {
       changeMode('individual');
       refocus(string, true);
 
     } else {
-      // eraseGraph();
-      // $('.loading')
-      //   .text('Please enter a valid ripple address.')
-      //   .css("color","#a00");
-        changeMode('individual');
-        refocus(string, true);
+    	console.log('##############Please enter a valid ripple address');
+      eraseGraph();
+      $('.loading')
+        .text('Please enter a valid ripple address.')
+        .css("color","#a00");
     }
   }
 
 
   var lastFocalNode = REFERENCE_NODE;
   var currentCurrency = "XRP";
-  var currentLedger;
 
   var w = 935;  //Width
   var h = 800; //Height
@@ -220,45 +190,14 @@ networkGraph = function (nameService) {
       return;
     }
 
-    var options;
+    handleLines(address)
 
-    if (!currentLedger) {
-      setTimeout(serverGetLines.bind(this, address), 100);
-      return;
-    }
-
-    // try {
-      remote.getTrustlines('r3kmLJN5D28dHuH8vZNUZpMC43pEHpaocV', {
-        ledgerVersion: currentLedger
-      })
-      .then(handleLines.bind(undefined, address))
-      .catch(function(e) {
-        console.log('e'+e);
-        if (e.message === 'actNotFound') {
-          $('.loading')
-            .text('Account Not Found')
-            .css('color','#a00');
-        }
-      });
-    //     handleLines.bind(undefined, address)
-    // } catch(e) {
-    //   console.log(e);
-    //   if (e.message === 'data.address should match format addressa') {
-    //     $('.loading')
-    //       .text('Please enter a valid ripple address.')
-    //       .css('color','#a00');
-    //   } else {
-    //     $('.loading')
-    //       .text(e.message)
-    //       .css('color','#a00');
-    //   }
-    // }
   }
 
   function serverGetInfo(address) {
-
+    console.log('##############serverGetInfo:'+address);
     if (!nodes[nodeMap[address]] || !nodes[nodeMap[address]].account.index) {
-      // try {
+        /*
         remote.getAccountInfo(address)
          .then(handleAccountData.bind(undefined, address))
          .catch(function(e) {
@@ -268,7 +207,7 @@ networkGraph = function (nameService) {
               .text('Account Not Found')
               .css('color','#a00');
           }
-        });
+        });*/
       // } catch(e) {
       //   console.log(e);
       //   if (e.message === 'data.address should match format address') {
@@ -1153,7 +1092,7 @@ networkGraph = function (nameService) {
 
   function expandNode(address) {
     var nutl;
-
+    self.parent.iftest(address);
     store.session.set("graphID", address);
 
     if (typeof(nodes[nodeMap[address]]) !== "undefined") {
@@ -1649,7 +1588,7 @@ function refocus(focus, erase, noExpand) {
   degreeMap = {};
   degreeMap[focalNode] = 0;
   if (!noExpand) {
-    //serverGetLines(focalNode);
+    serverGetLines(focalNode);
   }
   addNodes(0);
   reassignColors(focalNode);
@@ -2191,80 +2130,17 @@ window.onhashchange = function(){
     force.nodes([]).links([]).stop();
     svg.html('');
     clearInterval(requestRepetitionInterval);
-    remote.connection.removeListener('transaction', handleTransaction);
-    remote.removeListener('ledger', handleLedger);
-  }
-
-  remote.connection.on('transaction', handleTransaction);
-  remote.on('ledger', handleLedger);
-
-  function handleLedger(d) {
-    currentLedger = d.ledgerVersion;
   }
 
   function init () {
-
-      if (remote.isConnected()) {
-        subscribe();
-      } else {
-        remote.connect()
-        .then(subscribe)
-        .catch(function(e) {
-          console.log(e);
-        });
-      }
-
-      function subscribe() {
-        remote.connection.request({
-          command: 'subscribe',
-          streams: ['transactions']
-        })
-        .catch(function(e) {
-          console.log(e);
-        });
-      }
-
       if (firstTime) {
-        if (transaction_id && transaction_id !== "") {
-          nodeMap = {};
-          degreeMap = {};
-          nodes = [];
-          $('#focus').val(transaction_id);
-          api.getTxByHash(transaction_id, handleIndividualTransaction);
-
-        } else if (rippleName) {
-          $('#focus').val(rippleName);
-          nameService(rippleName, function(name, address){
-            if (address) {
-              focalNode = address;
-              expandNode(focalNode);
-              addNodes(0);
-            } else {
-              $(".loading")
-                .text('Ripple Name not found.')
-                .css("color","#a00");
-            }
-          });
-
-        } else {
-          $('#focus').val(focalNode);
-          lastFocalNode = REFERENCE_NODE;
-          expandNode(focalNode);
-          addNodes(0);
-        }
+        $('#focus').val(focalNode);
+        lastFocalNode = REFERENCE_NODE;
+        expandNode(focalNode);
+        addNodes(0);
       }
       firstTime = false;
   }
 
-  if (remote.isConnected()) {
-    init();
-
-  } else {
-    remote.connect()
-    .then(init)
-    .catch(function(e) {
-      console.log(e);
-      console.log(e.stack);
-    });
-  }
+  init();
 }
