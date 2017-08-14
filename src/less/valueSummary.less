@@ -1,41 +1,43 @@
+donut {
+  display: block;
+  width: 270px;
+}
+
+donut .valueSummary {
+  width: 240px;
+  height: 280px;
+  margin: auto;
+}
+
+donut .valueSummary .inner {
+  margin: 0;
+}
+
+donut .valueSummary .tooltip {
+  width: 240px;
+  bottom: auto;
+  right: 0px;
+}
+
+donut .tooltip .title {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 .valueSummary {
   text-align:center;
   position:relative;
 
-  .xrpToggle {
-    display:none;
-    position:absolute;
-    top:10px;
-    right:10px;
+  h5 {
+    margin-bottom: 20px;
+    font-weight: normal;
+    font-size: 14px;
+  }
 
-    input {
-      display: none;
-    }
-
-   b:before {
-      content: "";
-      display: inline-block;
-      line-height: 12px;
-      margin-right:5px;
-      width: 14px;
-      height: 14px;
-      border:2px solid #888;
-      color: #666;
-      text-align: center;
-      font-size: 14px;
-      content: "\2713";
-      color:transparent
-    }
-
-    input:checked + b:before {
-       color:#666
-    }
-
-    span {
-      font-size:11px;
-      float:right;
-      color:#aaa;
-    }
+  h5 a {
+    font-weight: normal;
+    margin: 0 5px;
   }
 
   .inner {
@@ -59,7 +61,7 @@
         opacity: .4;
       }
 
-      path.pair {
+      path.clickable {
         cursor: pointer;
       }
     }
@@ -71,9 +73,11 @@
       border-radius:2px;
       font-size:12px;
       line-height:12px;
-      color:#333;
+      color:#666;
       font-family:Arial;
       transition: opacity .3s ease;
+      z-index: 1;
+      cursor: default;
 
       b {
         display:block;
@@ -89,16 +93,20 @@
       z-index:10;
     }
 
+    label.hidden {
+      display: none;
+    }
+
     label.fade {
       opacity: .4;
+      z-index: -1;
     }
   }
 
   .tooltip {
     opacity: 1;
-    filter: alpha(opacity=1);
     position:absolute;
-    bottom:-10px;
+    bottom:0;
     right:5px;
     padding:5px;
     background:rgba(255,255,255,.9);
@@ -117,6 +125,7 @@
 
     small {
       color:#999;
+      margin-left: -.1em;
     }
 
     .issuer {
@@ -128,6 +137,11 @@
     .title {
       border-bottom:1px solid #ccc;
       margin-bottom: 5px;
+      font-weight: normal;
+    }
+
+    .title small {
+      margin: 0 5px;
     }
   }
 }
@@ -152,10 +166,7 @@
     .inner {
 
       label {
-        color:#bbb;
-
-        b {
-        }
+        color:#888;
       }
 
       label:hover {

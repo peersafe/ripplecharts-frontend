@@ -3,12 +3,12 @@
  * stylesheets used throughout the application as this is the only stylesheet in
  * the Grunt configuration that is automatically processed.
  */
-
 @font-face { font-family: "Open Sans Light"; src: url('fonts/OpenSans-Light.ttf'); }
 @font-face { font-family: "Open Sans Light"; font-style:italic; src: url('fonts/OpenSans-LightItalic.ttf'); }
-@font-face { font-family: "Open Sans Light"; font-weight: bold; src: url('fonts/OpenSans-Bold.ttf'); }
-@font-face { font-family: "Open Sans Light"; font-weight: bold; font-style:italic; src: url('fonts/OpenSans-BoldItalic.ttf'); }
+@font-face { font-family: "Open Sans"; font-weight: bold; src: url('fonts/OpenSans-Bold.ttf'); }
+@font-face { font-family: "Open Sans"; font-weight: bold; font-style:italic; src: url('fonts/OpenSans-BoldItalic.ttf'); }
 @font-face { font-family: "Open Sans"; src: url('fonts/OpenSans-Regular.ttf'); }
+
 
 /**
  * First, we include the Twitter Bootstrap LESS files. Only the ones used in the
@@ -41,7 +41,7 @@
 @import 'variables.less';
 
 body {
-  font-family: "Open Sans Light", Helvetica, Arial, sans-serif;
+  font-family: "Open Sans", Arial, sans-serif;
   padding:0 !important;
   line-height:inherit;
   width:100%;
@@ -93,19 +93,41 @@ h1, h2, h3, h4 {
   position: fixed;
   width: 100%;
   z-index:3;
-  border-bottom:1px solid #444;
-  background:#151515;
+  background:#000;
 }
 
 .header .wrapper {
-  //overflow:hidden;
-  background:#000;
-  //border-bottom:5px solid #222;
-  height: 59px;
+  height: 50px;
+  padding: 0 10px;
+}
+
+.header .subheader {
+  background: #434c55;
+  clear: both;
+}
+
+.header .subheader .wrapper {
+  height: 40px;
+  padding: 0 20px;
+}
+
+.header .subheader .sublogo {
+  height: 40px;
+  padding: 10px 0;
+}
+
+.header .subheader .button {
+  float: right;
+  padding: 8px 4px
+}
+
+.header .subheader .button img {
+  height: 25px;
+  width: 30px;
 }
 
 .headerPad {
-  height:60px;
+  height: 90px;
 }
 
 .header status-check {
@@ -124,7 +146,7 @@ h1, h2, h3, h4 {
 }
 
 .header status-check svg {
-  margin: 20px 12px 12px;
+  margin: 11px 0 5px 5px;
 }
 
 .header status-check circle {
@@ -132,29 +154,29 @@ h1, h2, h3, h4 {
 }
 
 .header status-check circle.active {
-  fill: #393;
+  fill: #3c3;
 }
 
 .header status-check circle.warning {
-  fill: #c90;
+  fill: #f90;
 }
 
 .header status-check circle.inactive {
-  fill: #c00;
+  fill: #c55;
 }
 
 .header status-check marker.active {
-  border-color: #393 #393 transparent transparent;
+  border-color: #3c3 #3c3 transparent transparent;
   opacity: 1;
 }
 
 .header status-check marker.warning {
-  border-color: #c90 #c90 transparent transparent;
+  border-color: #f90 #f90 transparent transparent;
   opacity: 1;
 }
 
 .header status-check marker.inactive {
-  border-color: #c00 #c00 transparent transparent;
+  border-color: #c55 #c55 transparent transparent;
   opacity: 1;
 }
 
@@ -245,8 +267,8 @@ h1, h2, h3, h4 {
 }
 
 .nav-toggle {
-  margin:12px 10px 10px 20px;
-  float:left;
+  margin:10px;
+  float:right;
   cursor:pointer;
   color:#ccc;
 }
@@ -262,7 +284,7 @@ h1, h2, h3, h4 {
 
 .nav .top {
   background:#f6f6f6;
-  height:60px;
+  height:92px;
   border-right:1px solid #fdfdfd;
   border-bottom:1px solid #e8e8e8;
 }
@@ -289,6 +311,10 @@ h1, h2, h3, h4 {
   list-style:none;
   margin-left:40px;
 }
+
+.nav li a:link,
+.nav li a:active,
+.nav li a:visited,
 .nav li a:hover {
   background:none
 }
@@ -296,10 +322,11 @@ h1, h2, h3, h4 {
 .nav li a {
   font-size:14px;
   border-radius:1px;
-  padding:11px 20px;
+  padding:7px 16px;
   color:#666;
   display:block;
   text-decoration:none;
+  background:none
 }
 
 .nav .page li {
@@ -333,11 +360,11 @@ h1, h2, h3, h4 {
 }
 
 .nav .page li a:hover {
-  color:#486db4;
+  color:#27a2db;
 }
 
 .nav .page li.active a{
-  color:#3a62ae;
+  color:#27a2db;
   padding-left:40px;
 }
 
@@ -349,16 +376,11 @@ h1, h2, h3, h4 {
 .logo {
   float:left;
   display:inline-block;
-  width:175px;
+  width:104px;
   height:30px;
-  background-image:url('images/logo.png');
-  margin: 15px 0 15px 15px !important;
-
-// Pixel ratio: 2
-  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {
-    background-image: url('images/logo-2x.png');
-    background-size: 175px 30px;
-  }
+  background-image:url('images/ripple.png');
+  margin: 10px 0 10px 10px !important;
+  background-size: 104px 30px;
 }
 
 .theme {
@@ -480,8 +502,6 @@ h1, h2, h3, h4 {
   background-repeat: no-repeat;
   background-position: 90% 50%;
   background-size: 10px;
-  font-family: 'Open Sans';
-  //font-weight:bold;
   -webkit-appearance:none;
   -moz-appearance:none!important;
   -o-appearance:none;
@@ -529,7 +549,6 @@ h1, h2, h3, h4 {
 
 .helpbox a {
   color:#999;
-  font-family:"Open Sans";
   text-decoration:underline;
 }
 
@@ -582,7 +601,6 @@ h1, h2, h3, h4 {
 
 .disclaimer {
   font-size:11px;
-  font-family:"Open Sans";
   margin-bottom:20px;
   color:#ccc;
 }
@@ -605,7 +623,6 @@ footer .footerInner {
   text-align:left;
   clear:both;
   padding:10px;
-  font-family:"Open Sans";
 }
 
 footer .footerInner .disclaimer {
@@ -658,6 +675,14 @@ footer .links a:first-child {
 }
 
 @media (max-width: 480px) {
+  .header .wrapper {
+    padding: 0
+  }
+
+  .header .subheader .wrapper {
+    padding: 0 10px;
+  }
+
   .footerPad {
     height:300px;
   }
@@ -674,9 +699,9 @@ footer .links a:first-child {
 }
 
 
-.landing .valueRateDisplay {
+.valueRateDisplay {
   float: right;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: normal;
   color: #aaa;
   padding-top: 5px;
@@ -704,6 +729,7 @@ footer .links a:first-child {
   appearance: none;
   text-indent: 0.01px; /* needed to hide arrow in moz */
   text-overflow: "";   /* needed to hide arrow in moz */
+  cursor: pointer;
 }
 
 .valueCurrencySelect::-ms-expand {
@@ -734,6 +760,7 @@ footer .links a:first-child {
 @import '../app/topology/topology.less';
 @import '../app/validators/validators.less';
 @import '../app/transactions/transactions.less';
+@import '../app/xrp-markets/xrp-markets.less';
 
 @import 'jquery.selectbox.less';
 @import 'priceChart.less';
@@ -750,23 +777,19 @@ footer .links a:first-child {
 @import 'chordDiagram.less';
 @import 'datepicker.less';
 @import 'stackedChart.less';
+@import 'versionsGraph.less';
 
 
 /*
  * New header
  */
 
-.main {
-  padding-top: 20px;
-}
-
- .mobile_only {
+.mobile_only {
   display: none;
 }
 
 .navbar {
-  font-family: 'Open Sans';
-  margin-top: 5px;
+  margin-top: 8px;
   float: right;
 
 
@@ -775,11 +798,11 @@ footer .links a:first-child {
   }
 
   li.category a:hover,  li.category a:active {
-    color: #346aa9;
+    color: #27a2db;
   }
 
   .sub_wrapper {
-    padding-top: 11px;
+    padding-top: 10px;
     height: auto;
     width: auto;
     position: relative;
@@ -806,7 +829,7 @@ footer .links a:first-child {
       list-style-type: none;
 
       & :hover {
-      color: #346aa9 !important;
+      color: #27a2db !important;
       }
     }
   }
@@ -834,7 +857,7 @@ footer .links a:first-child {
       text-align: center;
 
       a {
-        padding: 14px 5px;
+        padding: 5px;
       }
     }
   }
@@ -845,7 +868,7 @@ footer .links a:first-child {
 }
 
 #helpButton_new_mobile {
-    margin: 10px 20px;
+    margin: 10px 15px;
     color: #666;
 }
 
@@ -969,7 +992,7 @@ ul.dd-options li:hover {
 .dd-option,
 .dd-selected {
   color: #000;
-  font-family: "Open Sans";
+  font-family: "Open Sans", Arial, Sans-serif;
   padding: 0 10px !important;
 
   &:hover {
@@ -979,7 +1002,7 @@ ul.dd-options li:hover {
 
 .dd-option-text {
   color: #000;
-  font-family: "Open Sans";
+  font-family: "Open Sans", Arial, Sans-serif;
 
   &:hover {
     color: #000;
