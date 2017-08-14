@@ -76,6 +76,36 @@ function ApiHandler(baseURL) {
     })
   }
 
+    this.getBitTx = function (address, callback) {
+        var url = 'http://192.168.246.131:3001/insight-api/txs?address=' + address
+
+        return d3.json(url, function (err, resp) {
+            if (err) {
+                callback({
+                    status: err.status,
+                    text: err.statusText || 'Unable to load address'
+                })
+
+            } else {
+                callback(null, resp)
+            }
+        })
+    }
+
+  this.getTxByHash = function(hash, callback) {
+    var url = self.url + '/tx/' + hash
+
+    return d3.json(url, function(err, resp) {
+      if (err) {
+          alert('err'+err)
+          callback(null,'')
+      } else {
+        alert('res'+resp);
+        callback(null, resp)
+      }
+    })
+  }
+
   this.getAccountTx = function(params, callback) {
     var url = self.url + '/accounts/' + params.account + '/transactions'
     var limit = params.limit ? '&limit=' + params.limit : ''
@@ -85,6 +115,23 @@ function ApiHandler(baseURL) {
       '&descending=true' : ''
 
     url += '?' + limit + marker + descending
+    return d3.json(url, function(err, resp) {
+      if (err) {
+        callback({
+          status: err.status,
+          text: err.statusText || 'Unable to load data'
+        })
+
+      } else {
+        callback(null, resp)
+      }
+    })
+  }
+  this.getTxByAddress = function(params, callback) {
+    var url = self.url + '/adds/' + params.address + '/txs'
+    var from =  '&from=0'
+    var to = params.to ? '&to=' + params.to : ''
+    url += '?' + from + to
     return d3.json(url, function(err, resp) {
       if (err) {
         callback({
